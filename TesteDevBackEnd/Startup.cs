@@ -1,16 +1,13 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Globalization;
+using TesteDevBackEnd.Services;
 
 namespace TesteDevBackEnd
 {
@@ -32,6 +29,8 @@ namespace TesteDevBackEnd
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "TesteDevBackEnd", Version = "v1" });
             });
+
+            services.AddTransient<ICreditoService, CreditoService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -43,6 +42,15 @@ namespace TesteDevBackEnd
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "TesteDevBackEnd v1"));
             }
+
+            RequestLocalizationOptions localizationOptions = new RequestLocalizationOptions
+            {
+                SupportedCultures = new List<CultureInfo> { new CultureInfo("pt-BR") },
+                SupportedUICultures = new List<CultureInfo> { new CultureInfo("pt-BR") },
+                DefaultRequestCulture = new RequestCulture("pt-BR")
+            };
+
+            app.UseRequestLocalization(localizationOptions);
 
             app.UseHttpsRedirection();
 

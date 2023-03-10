@@ -1,7 +1,7 @@
 ﻿using System;
 using TesteDevBackEnd.Models;
 
-namespace TesteDevBackEnd.Services
+namespace TesteDevBackEnd.Domain
 {
     public abstract class Credito
     {
@@ -9,11 +9,6 @@ namespace TesteDevBackEnd.Services
         public TipoCredito TipoCredito { get; set; }
         public int QuantidadeParcelas { get; set; }
         public DateTime DataVencimento { get; set; }
-
-        public Credito()
-        {
-
-        }
 
         public Credito(decimal valorCredito, TipoCredito tipoCredito, int quantidadeParcelas, DateTime dataVencimento)
         {
@@ -44,9 +39,9 @@ namespace TesteDevBackEnd.Services
 
             return new ResponseModel()
             {
-                StatusCredito = Status.Aprovado,
-                ValorTotal = ValorCredito + juros,
-                ValorJuros = juros
+                StatusCredito = Status.Aprovado.ToString(),
+                ValorTotal = string.Format("{0:C}", ValorCredito + juros),
+                ValorJuros = string.Format("{0:C}", juros)
             };
         }
 

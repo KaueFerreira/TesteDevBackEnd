@@ -1,5 +1,5 @@
 ﻿using System;
-using TesteDevBackEnd.Services;
+using TesteDevBackEnd.Domain;
 
 namespace TesteDevBackEnd.Models
 {

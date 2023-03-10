@@ -1,10 +1,10 @@
 ﻿using System;
 
-namespace TesteDevBackEnd.Services
+namespace TesteDevBackEnd.Domain
 {
     public class CreditoPessoaJuridica : Credito
     {
-        public CreditoPessoaJuridica()
+        public CreditoPessoaJuridica(decimal valorCredito, TipoCredito tipoCredito, int quantidadeParcelas, DateTime dataVencimento) : base(valorCredito, tipoCredito, quantidadeParcelas, dataVencimento)
         {
             if (ValorCredito < 15000)
             {

@@ -1,4 +1,4 @@
-﻿namespace TesteDevBackEnd.Services
+﻿namespace TesteDevBackEnd.Domain
 {
     public enum TipoCredito
     {

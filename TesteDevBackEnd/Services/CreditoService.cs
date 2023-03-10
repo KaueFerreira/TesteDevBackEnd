@@ -1,4 +1,5 @@
 ﻿using System;
+using TesteDevBackEnd.Domain;
 using TesteDevBackEnd.Models;
 
 namespace TesteDevBackEnd.Services
@@ -9,15 +10,21 @@ namespace TesteDevBackEnd.Services
         {
             try
             {
-                //builder passando request
+                var builder = new CreditoBuilder()
+                   .RegisterBuilder(TipoCredito.Direto, () => new CreditoDireto(request.ValorCredito, request.TipoCredito, request.QuantidadeParcelas, request.DataVencimento))
+                   .RegisterBuilder(TipoCredito.Consignado, () => new CreditoConsignado(request.ValorCredito, request.TipoCredito, request.QuantidadeParcelas, request.DataVencimento))
+                   .RegisterBuilder(TipoCredito.PessoaJuridica, () => new CreditoPessoaJuridica(request.ValorCredito, request.TipoCredito, request.QuantidadeParcelas, request.DataVencimento))
+                   .RegisterBuilder(TipoCredito.PessoaFisica, () => new CreditoPessoaFisica(request.ValorCredito, request.TipoCredito, request.QuantidadeParcelas, request.DataVencimento))
+                   .RegisterBuilder(TipoCredito.Imobiliario, () => new CreditoImobiliario(request.ValorCredito, request.TipoCredito, request.QuantidadeParcelas, request.DataVencimento));
 
-                return new ResponseModel();
+                var credito = builder.Build(request.TipoCredito);
+
+                return credito.VerificarCredito();
 
             }
             catch (ApplicationException ex)
             {
-
-                throw new ApplicationException(ex.Message);
+                return new ResponseModel() {StatusCredito = Status.Recusado.ToString(), MensagemErro = ex.Message };
             }
         }
     }
